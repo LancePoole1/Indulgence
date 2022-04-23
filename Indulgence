@@ -1,0 +1,30 @@
+require_once "Mail.php";
+
+function sendTheEmail($from, $to, $subject, $body)
+{     
+    $recipients = $to;
+
+    $headers['From']    = $from;
+    $headers['To']      = $to;
+    $headers['Subject'] = $subject;
+
+    $params['sendmail_path'] = '/usr/sbin/sendmail';
+
+    // Create the mail object using the Mail::factory method
+    $mail_object =& Mail::factory('sendmail', $params);
+
+    $mail_object->send($recipients, $headers, $body);
+}
+
+
+if (isset($argv[1]) && isset($argv[2]) && isset($argv[3]) && isset($argv[4]))
+{
+    $from_email = $argv[1];
+    $to_email = $argv[2];
+    $subject = $argv[3];
+    $body = $argv[4];
+}
+
+sendTheEmail($from_email, $to_email, $subject, $body);
+
+?>
